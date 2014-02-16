@@ -1,17 +1,25 @@
-Links utili: 
+SkiScraper
+=========
+Retrieve info about Ski Centers in Trentino
 
-Lista impianti da scrapare:
-https://sicurskiweb.fbk.eu/
+Usage
+-----
+First of all, install SkiScraper
 
-Tognola:
-http://www.tognola.it/en/ [nel dropdown]
+`python setup.py install`
 
-Alpe Cermis Cavalese:
-http://www.alpecermis.it/en/ski-lifts-and-ski-runs
+Then, import desired modules
 
-Pinzolo Doss del Sabion:
-http://www.doss.to/terrain_and_lifts/terrain_and_lifts_status
+`from skiscraper import Cermis, Latemar, Pinzolo, SanMartino`
 
-Pampeago Latemar:
-http://www.latemar.it/it/Piste-e-Impianti.asp
+Now have fun
 
+```py
+c = Cermis()
+
+c.slopes[1].name
+
+is_open = c.get_slope_by_name('Lagorai')
+
+print 'Lagorai is {}'.format('open' if is_open else 'closed')
+```
