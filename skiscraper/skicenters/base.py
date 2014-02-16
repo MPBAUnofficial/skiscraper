@@ -76,7 +76,7 @@ class SkiCenter(object):
         if not self.slopes:
             self.update()
 
-        transform = lambda s: s.split().lower()
+        transform = lambda s: s.strip().lower()
         name = transform(name)
 
         for slope in self.slopes:
