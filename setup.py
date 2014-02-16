@@ -12,7 +12,7 @@ setup(
     description='Find informations about ski centers in Trentino',
     long_description=README,
     license='FreeBSD License',
-    url='',
+    url='https://github.com/MPBAUnofficial/skiscraper/',
     author='Marco Dallagiacoma',
     author_email='dallagiac@fbk.eu',
     packages=['skiscraper', 'skiscraper.skicenters'],
