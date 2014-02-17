@@ -1,12 +1,13 @@
 import requests
 from bs4 import BeautifulSoup
 
-from base import SkiCenter, Slope, Lift, ApiError
+from base import SkiCenter, Slope, Lift, ApiError, Weather
 
 
 class Cermis(SkiCenter):
     def __init__(self, name=None):
         super(Cermis, self).__init__(name)
+        self.weather = Weather('Cermis', 'T0227')
 
     def update(self):
         url = 'http://www.alpecermis.it/en/ski-lifts-and-ski-runs'

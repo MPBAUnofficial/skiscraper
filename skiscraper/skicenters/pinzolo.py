@@ -1,10 +1,11 @@
 import requests
-from base import SkiCenter, Slope, Lift, ApiError
+from base import SkiCenter, Slope, Lift, ApiError, Weather
 
 
 class Pinzolo(SkiCenter):
     def __init__(self, name=None):
         super(Pinzolo, self).__init__(name)
+        self.weather = Weather('Pinzolo', 'T0175')
 
     def update(self):
         # TODO: dynamic device token? :P
