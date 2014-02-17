@@ -15,11 +15,14 @@ Then, import desired modules
 Now have fun
 
 ```py
-c = Cermis()
+cermis = Cermis()
 
-c.slopes[1].name
+print cermis.slopes[1].name
 
-is_open = c.get_slope_by_name('Lagorai')
+is_open = cermis.get_slope_by_name('Lagorai')
 
 print 'Lagorai is {}'.format('open' if is_open else 'closed')
+
+if cermis.weather.temperature <= 0:
+    print "Brrr, I'm freezing!"
 ```
