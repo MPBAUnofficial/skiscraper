@@ -19,7 +19,7 @@ cermis = Cermis()
 
 print cermis.slopes[1].name
 
-is_open = cermis.get_slope_by_name('Lagorai')
+is_open = cermis.get_slope_by_name('Lagorai').open
 
 print 'Lagorai is {}'.format('open' if is_open else 'closed')
 
