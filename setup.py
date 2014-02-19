@@ -22,7 +22,7 @@ setup(
         'License :: OSI Approved :: FreeBSD License',  # cosi tanto per
         'Operating System :: OS Indipendent',
     ],
-    install_requires=['requests', 'BeautifulSoup4'],
+    install_requires=['requests', 'BeautifulSoup4', 'lxml'],
     zip_safe=False,
 )
 
