@@ -31,8 +31,9 @@ class Pinzolo(SkiCenter):
                 )
             if area['t'] == 1:
                 color = area['c']
-                difficulties = {'0000FF': 0, 'EE4000': 1, '000000': 2}
-                difficulty = difficulties[color]
+                difficulties = \
+                    {'0000FF': 0, 'EE4000': 1, '000000': 2, 'FFD700': 3}
+                difficulty = difficulties.get(color, -1)
                 slope = Slope('Pinzolo', area['n'], area['ttl'],
                               difficulty, is_open)
                 _slopes.append(slope)

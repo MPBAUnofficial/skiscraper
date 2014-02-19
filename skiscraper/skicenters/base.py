@@ -14,7 +14,8 @@ class Slope(object):
         self.id = _id
         self.name = name
         self.open = _open
-        self.difficulty = difficulty  # 0: easy, 1: middle, 2: difficult
+        # 0: easy, 1: middle, 2: difficult, 3: snowpark
+        self.difficulty = difficulty
 
     def __repr__(self):
         u = lambda s: s.encode('utf-8')
@@ -81,7 +82,7 @@ class Weather(object):
                 self.rainfall = get_value(var)
             elif name == 'Temperatura aria':
                 self.temperature = get_value(var)
-            elif name == 'Umidita\' aria':  # dat Italian
+            elif name == 'Umidita\' aria':
                 self.humidity = get_value(var)
             elif name == 'Velocita\' vento media':
                 self.wind_speed = get_value(var)
