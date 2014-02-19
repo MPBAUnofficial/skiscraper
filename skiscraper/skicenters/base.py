@@ -14,7 +14,7 @@ class Slope(object):
         self.id = _id
         self.name = name
         self.open = _open
-        # 0: easy, 1: middle, 2: difficult, 3: snowpark
+        # 0: easy, 1: middle, 2: difficult, 3: snowpark, 4: off-piste
         self.difficulty = difficulty
 
     def __repr__(self):
