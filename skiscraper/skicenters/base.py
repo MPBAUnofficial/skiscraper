@@ -71,6 +71,10 @@ class Weather(object):
         url = 'http://hydstraweb.provincia.tn.it/wgen/cache/anon/lf{0}.xml'\
               .format(self.station_id.lower())
         r = requests.get(url)
+
+        if not r.ok:
+            raise ApiError()
+
         root = objectify.fromstring(r.text)
 
         for var in root.tsfile.variable:
