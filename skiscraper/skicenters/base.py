@@ -46,11 +46,14 @@ class Weather(object):
     """
     Weather data provided by MeteoTrentino
     """
-    def __init__(self, area, station_id):
-        self.area = area
-        self.station_id = station_id
+    def __init__(self, *stations):
+        self.stations = []
+        for s in stations:
+            # make a list of (area, station_id) tuple.
+            self.stations.append((s.split('::', 1)))
 
         # instantaneous data
+        self.station_name = self.station_id = None
         self.temperature = None
         self.rainfall = None
         self.humidity = None
@@ -60,7 +63,7 @@ class Weather(object):
         self.update()
 
     def __str__(self):
-        return '{x.area} [{x.station_id}]:\ntemp.: {x.temperature}, ' \
+        return '{x.station_name} [{x.station_id}]:\ntemp.: {x.temperature}, ' \
                'rainfall: {x.rainfall}, humidity: {x.humidity}, ' \
                'wind: {x.wind_speed}, pressure: {x.pressure}'.format(x=self)
 
@@ -68,30 +71,34 @@ class Weather(object):
         return self.__str__()
 
     def update(self):
-        url = 'http://hydstraweb.provincia.tn.it/wgen/cache/anon/lf{0}.xml'\
-              .format(self.station_id.lower())
-        r = requests.get(url)
+        for station_name, station_id in self.stations:
+            url = 'http://hydstraweb.provincia.tn.it/wgen/cache/anon/lf{0}.xml'\
+                  .format(station_id.lower())
+            r = requests.get(url)
 
-        if not r.ok:
-            raise ApiError()
+            if not r.ok:
+                continue
 
-        root = objectify.fromstring(r.text)
+            root = objectify.fromstring(r.text)
 
-        for var in root.tsfile.variable:
-            name = var.attrib['name']
-            get_value = lambda node: float(node.data.p.attrib['value'])
+            for var in root.tsfile.variable:
+                name = var.attrib['name']
+                get_value = lambda node: float(node.data.p.attrib['value'])
 
-            # todo: save date?
-            if name == 'Pioggia':
-                self.rainfall = get_value(var)
-            elif name == 'Temperatura aria':
-                self.temperature = get_value(var)
-            elif name == 'Umidita\' aria':
-                self.humidity = get_value(var)
-            elif name == 'Velocita\' vento media':
-                self.wind_speed = get_value(var)
-            elif name == 'Pressione atmosferica':
-                self.pressure = get_value(var)
+                # todo: save date?
+                if name == 'Pioggia':
+                    self.rainfall = get_value(var)
+                elif name == 'Temperatura aria':
+                    self.temperature = get_value(var)
+                elif name == 'Umidita\' aria':
+                    self.humidity = get_value(var)
+                elif name == 'Velocita\' vento media':
+                    self.wind_speed = get_value(var)
+                elif name == 'Pressione atmosferica':
+                    self.pressure = get_value(var)
+
+                self.station_name = station_name
+                self.station_id = station_id
 
 
 class SkiCenter(object):

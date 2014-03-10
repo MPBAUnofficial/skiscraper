@@ -5,7 +5,9 @@ from base import SkiCenter, Lift, Slope, ApiError, Weather
 class SanMartino(SkiCenter):
     def __init__(self, name=None):
         super(SanMartino, self).__init__(name)
-        self.weather = Weather('San Martino', 'T0450')
+        self.weather = Weather(
+            'San Martino di Castrozza::T0450',
+            )
 
     def update(self):
         # It won't work without these headers

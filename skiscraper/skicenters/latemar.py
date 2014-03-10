@@ -7,7 +7,7 @@ from base import SkiCenter, Slope, Lift, ApiError, Weather
 class Latemar(SkiCenter):
     def __init__(self, name=None):
         super(Latemar, self).__init__(name)
-        self.weather = Weather('Predazzo', 'T0389')
+        self.weather = Weather('Predazzo::T0389')
 
     def update(self):
         r = requests.get(

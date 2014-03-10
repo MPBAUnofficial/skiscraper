@@ -9,7 +9,10 @@ class Bondone(SkiCenter):
         super(Bondone, self).__init__(name)
         # Weather set to 'Monte Bondone - Giardino Botanico'
         # To switch to 'Monte Bondone - Viote', set code to T0368
-        self.weather = Weather('Bondone', 'T0327')
+        self.weather = Weather(
+            'Monte Bondone (Giardino Botanico)::T0327',
+            'Monte Bondone (Viote)::T0368'
+        )
 
     def update(self):
         r = requests.get(

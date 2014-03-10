@@ -5,7 +5,9 @@ from base import SkiCenter, Slope, Lift, ApiError, Weather
 class Pinzolo(SkiCenter):
     def __init__(self, name=None):
         super(Pinzolo, self).__init__(name)
-        self.weather = Weather('Pinzolo', 'T0175')
+        self.weather = Weather('Pinzolo::T0175',
+                               'Pinzolo (Malga Zeledria)::T0435'
+        )
 
     def update(self):
         # TODO: dynamic device token? :P
