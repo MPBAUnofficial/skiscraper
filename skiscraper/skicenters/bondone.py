@@ -54,4 +54,3 @@ class Bondone(SkiCenter):
                     )
 
         self.slopes, self.lifts = _slopes[:], _lifts[:]
-

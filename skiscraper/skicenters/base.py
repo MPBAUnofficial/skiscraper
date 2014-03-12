@@ -81,6 +81,9 @@ class Weather(object):
 
             root = objectify.fromstring(r.text)
 
+            if root.find('tsfile') is None:
+                continue
+
             for var in root.tsfile.variable:
                 name = var.attrib['name']
                 get_value = lambda node: float(node.data.p.attrib['value'])
