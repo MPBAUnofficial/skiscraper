@@ -22,7 +22,9 @@ class Bondone(SkiCenter):
         if not r.ok:
             raise ApiError
 
-        soup = BeautifulSoup(r.text)
+        text = r.text.replace('\n', '')
+
+        soup = BeautifulSoup(text)
         tables = soup.find_all('table', class_='pisteImpianti detail')
 
         _slopes, _lifts = [], []
@@ -30,7 +32,7 @@ class Bondone(SkiCenter):
             _type = table.previous_sibling.text
             if _type == 'Ski lifts':
                 for lift in table.find_all('tr'):
-                    print lift
+                    #print lift
                     name = lift.find('td', class_='headerCell').text.strip()
                     is_open = \
                         'icoOpen.png' in lift.find_all('img')[-1].attrs['src']
