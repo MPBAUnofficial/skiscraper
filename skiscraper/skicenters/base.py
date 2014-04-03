@@ -55,53 +55,60 @@ class Weather(object):
         # instantaneous data
         self.station_name = self.station_id = None
         self.temperature = None
+        self.tmin = None
+        self.tmax = None
         self.rainfall = None
-        self.humidity = None
         self.wind_speed = None
-        self.pressure = None
+        self.radiations = None
 
         self.update()
 
     def __str__(self):
-        return '{x.station_name} [{x.station_id}]:\ntemp.: {x.temperature}, ' \
-               'rainfall: {x.rainfall}, humidity: {x.humidity}, ' \
-               'wind: {x.wind_speed}, pressure: {x.pressure}'.format(x=self)
+        return '{x.station_name} [{x.station_id}]:\ntemp.: {x.temperature} C,' \
+               ' rainfall: {x.rainfall} mm, radiations: {x.radiations} W/mq, ' \
+               'wind: {x.wind_speed} m/s'.format(x=self)
 
     def __repr__(self):
         return self.__str__()
 
     def update(self):
         for station_name, station_id in self.stations:
-            url = 'http://hydstraweb.provincia.tn.it/wgen/cache/anon/lf{0}.xml'\
-                  .format(station_id.lower())
+            url = 'http://dati.meteotrentino.it' \
+                  '/service.asmx/ultimiDatiStazione?codice={0}'\
+                .format(station_id.lower())
             r = requests.get(url)
 
             if not r.ok:
                 continue
 
-            root = objectify.fromstring(r.text)
+            root = objectify.fromstring(r.text.encode('utf-8'))
 
-            if root.find('tsfile') is None:
-                continue
+            self.tmin = root.tmin
+            self.tmax = root.tmax
+            self.rainfall = root.rain
 
-            for var in root.tsfile.variable:
-                name = var.attrib['name']
-                get_value = lambda node: float(node.data.p.attrib['value'])
+            # just an awful fix to the unreliability of meteotrentino data
+            #todo: refactor?
+            try:
+                self.temperature = \
+                    root.temperature.temperatura_aria[-1].temperatura
+            except AttributeError:
+                self.temperature = None
 
-                # todo: save date?
-                if name == 'Pioggia':
-                    self.rainfall = get_value(var)
-                elif name == 'Temperatura aria':
-                    self.temperature = get_value(var)
-                elif name == 'Umidita\' aria':
-                    self.humidity = get_value(var)
-                elif name == 'Velocita\' vento media':
-                    self.wind_speed = get_value(var)
-                elif name == 'Pressione atmosferica':
-                    self.pressure = get_value(var)
+            try:
+                self.wind_speed = int(root.venti.vento_al_suolo[-1].v)
+            except AttributeError:
+                self.wind_speed = None
 
-                self.station_name = station_name
-                self.station_id = station_id
+            try:
+                self.radiations = root.radiazione.radiazioneglobale[-1].rsg
+            except AttributeError:
+                self.radiations = None
+
+            self.station_name = station_name
+            self.station_id = station_id
+
+            break
 
 
 class SkiCenter(object):

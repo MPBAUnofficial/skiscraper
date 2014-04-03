@@ -4,7 +4,7 @@ from skicenters.sanmartino import SanMartino
 from skicenters.pinzolo import Pinzolo
 from skicenters.bondone import Bondone
 
-__all__ = ['SkiScraper']
+__all__ = ['Cermis', 'Latemar', 'SanMartino', 'Pinzolo', 'Bondone']
 
 
 class SkiScraper(object):
